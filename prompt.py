@@ -20,6 +20,13 @@ response format. Follow these rules:
   description and an amount.
 - Report subtotal, tax_amount and total_amount separately - never collapse
   tax into the total.
+- tax_percent must be populated whenever a tax/VAT rate appears anywhere on
+  the invoice, even if only embedded in a label - e.g. "VAT Total (@20%)" or
+  "Tax (@12.5%)" means tax_percent should be set to the numeric value (20,
+  12.5), not left null. Apply this both to invoice_header.tax_percent and to
+  each line_items[].tax_percent, unless a line item shows its own distinct
+  tax rate, in which case use that line's own rate instead of the header
+  rate.
 - currency must always be present, inferring it from context (letterhead,
   bank details, address) when not printed explicitly.
 - company_code is normally assigned by SAP during posting, not printed on
